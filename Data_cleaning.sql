@@ -44,8 +44,8 @@ Select PropertyAddress
 From portfolio_project_1..Neshville
 
 SELECT
-SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 ) as Address
-, SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress)) as Address
+SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 ) 
+, SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress)) 
 From portfolio_project_1..Neshville
 
 ALTER TABLE Neshville
@@ -65,7 +65,7 @@ From portfolio_project_1..Neshville
 
 
 -------------------------------------------------------------
---For proerty owner address 
+--For property owner address 
 Select OwnerAddress
 From portfolio_project_1..Neshville
 
@@ -96,7 +96,7 @@ SET PropertySplitState = Parsename (Replace(OwnerAddress, ',', '.'),1)
 
 
 -------------------------------------------------------------------
---Change y/nto Yes and No In "Sold as Vacant" Field 
+--Change y/n to Yes and No In "Sold as Vacant" Field 
 
 Select Distinct (SoldAsVacant), Count (SoldAsVacant)
 From portfolio_project_1..Neshville
@@ -104,10 +104,10 @@ Group by SoldAsVacant
 Order By 2
 
 Select SoldAsVacant
-, Case When SoldAsVacant = 'Y' Then 'Yes'
-		When SoldAsVacant = 'N' Then 'No'
-		Else SoldAsVacant
-		End
+Case When SoldAsVacant = 'Y' Then 'Yes'
+	When SoldAsVacant = 'N' Then 'No'
+	Else SoldAsVacant
+End
 From portfolio_project_1..Neshville
 
 Update Neshville
@@ -120,10 +120,11 @@ Set SoldAsVacant = Case When SoldAsVacant = 'Y' Then 'Yes'
 ---------------------------------------------------------------
 --Remove Duplicates 
 
-With RowNumCTE As (
+With RowNumCTE As 
+(
 Select * , 
-	Row_Number() Over (
-	Partition By ParcelID, 
+	Row_Number() Over 
+	(Partition By ParcelID, 
 				PropertyAddress,
 				SalePrice, 
 				SaleDate,
